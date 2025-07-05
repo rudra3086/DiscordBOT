@@ -39,9 +39,7 @@ client.on('messageCreate', message => {
   
     }
   }
-  // else if (message.content === 'Hello') {
-  //   message.send('Hey Buddy');
-  // }
+ console.log("ran succesfully");
 });
 
 client.login(process.env.DISCORD_BOT_TOKEN);
