@@ -50,18 +50,15 @@ client.on('messageCreate', message => {
       }
       if (args.length === 0) return message.reply("Please provide a user ID");
 
-      const member = message.guild.members.cache.get(args[0]);
-      if (member) {
-        member.ban()
-          .then(() => message.channel.send(`${member.user.tag} was banned.`))
+      else {
+          message.guild.members.ban(args[0])
+          .then(() => message.channel.send(`${mem.user.tag} was banned.`))
           .catch(err => {
             console.error(err);
-            message.channel.send(`I do not have permission to ban ${member.user.tag}`);
+            message.channel.send(`I do not have permission to ban ${mem.user.tag}`);
           });
-      } else {
-        message.channel.send("Member not found");
+      } 
       }
-    }
     else if (cmd_name === "open") {
       if(args[0].indexOf(".")>=0){
         message.channel.send(`Here's ${args[0]}: https://www.${args[0]}`);
@@ -71,12 +68,12 @@ client.on('messageCreate', message => {
       }
     }
     else if (cmd_name === "math") {
-    const expression = args.join(" ");
+      const expression = args.join(" ");
     try {
-    const result = math.evaluate(expression);
-    message.channel.send(`Result: \`${result}\``);
+      const result = math.evaluate(expression);
+      message.channel.send(`Result: \`${result}\``);
     } catch (error) {
-    message.channel.send("❌ Invalid math expression.");
+      message.channel.send("❌ Invalid math expression.");
     }
     }
   }
