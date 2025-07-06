@@ -63,7 +63,12 @@ client.on('messageCreate', message => {
       }
     }
     else if (cmd_name === "open") {
-      message.channel.send(`📺 Here's ${args[0]}: https://www.${args[0]}.com/`);
+      if(args[0].indexOf(".")>=0){
+        message.channel.send(`Here's ${args[0]}: https://www.${args[0]}`);
+      }
+      else{
+      message.channel.send(`Here's ${args[0]}: https://www.${args[0]}.com/`);
+      }
     }
     else if (cmd_name === "math") {
     const expression = args.join(" ");
