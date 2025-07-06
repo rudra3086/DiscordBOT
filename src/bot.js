@@ -23,23 +23,46 @@ client.on('messageCreate', message => {
     .trim()
     .substring(PREFIX.length)
     .split(" ");
-    if(cmd_name==='kick'){
-      if(message.member)
-      if(args.length===0){return message.reply("please provide an Id")}
-      // message.channel.send(`${args} kicked off the server`);
-      const member=message.guild.members.cache.get(args[0]);
-      if(member){
-        member.kick()
-        .catch((err)=> message.channel.send(`i do not have permissions to kick ${member}`))
-        .then((message.channel.send(`${member} was kicked.`)));
-        
-      }else{
-        message.channel.send("The member not found");
+   if (cmd_name === 'kick') {
+      if (!message.member.permissions.has('KickMembers')) {
+        return message.reply("You don't have permission to kick members.");
       }
-  
+      if (args.length === 0) return message.reply("Please provide a user ID");
+
+      const member = message.guild.members.cache.get(args[0]);
+      if (member) {
+        member.kick()
+          .then(() => message.channel.send(`${member.user.tag} was kicked.`))
+          .catch(err => {
+            console.error(err);
+            message.channel.send(`I do not have permission to kick ${member.user.tag}`);
+          });
+      } else {
+        message.channel.send("Member not found");
+      }
+    }
+
+    // Ban command
+    if (cmd_name === 'ban') {
+      if (!message.member.permissions.has('BanMembers')) {
+        return message.reply("You don't have permission to ban members.");
+      }
+      if (args.length === 0) return message.reply("Please provide a user ID");
+
+      const member = message.guild.members.cache.get(args[0]);
+      if (member) {
+        member.ban()
+          .then(() => message.channel.send(`${member.user.tag} was banned.`))
+          .catch(err => {
+            console.error(err);
+            message.channel.send(`I do not have permission to ban ${member.user.tag}`);
+          });
+      } else {
+        message.channel.send("Member not found");
+      }
     }
   }
- console.log("ran succesfully");
 });
+
 
 client.login(process.env.DISCORD_BOT_TOKEN);
