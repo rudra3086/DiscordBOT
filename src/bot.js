@@ -1,5 +1,6 @@
 require('dotenv').config();
 const { Client, GatewayIntentBits } = require('discord.js');
+const math = require('mathjs');
 
 const client = new Client({
   intents: [
@@ -15,7 +16,7 @@ client.once('ready', () => {
 });
 
 client.on('messageCreate', message => {
-   if (message.content === 'Hello') {
+   if (message.content === 'Hello Bot') {
     message.channel.send('Hey Buddy');
   }
   if(message.content.startsWith(PREFIX)){
@@ -43,7 +44,7 @@ client.on('messageCreate', message => {
     }
 
     // Ban command
-    if (cmd_name === 'ban') {
+    else if (cmd_name === 'ban') {
       if (!message.member.permissions.has('BanMembers')) {
         return message.reply("You don't have permission to ban members.");
       }
@@ -60,6 +61,18 @@ client.on('messageCreate', message => {
       } else {
         message.channel.send("Member not found");
       }
+    }
+    else if (cmd_name === "open") {
+      message.channel.send(`📺 Here's ${args[0]}: https://www.${args[0]}.com/`);
+    }
+    else if (cmd_name === "math") {
+    const expression = args.join(" ");
+    try {
+    const result = math.evaluate(expression);
+    message.channel.send(`Result: \`${result}\``);
+    } catch (error) {
+    message.channel.send("❌ Invalid math expression.");
+    }
     }
   }
 });
